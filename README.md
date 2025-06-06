@@ -42,21 +42,27 @@ Then paste your teams Webhook in the <hook_url> </hook_url> tags.
 
 15. After you login perform the following commands:
     sudo su
+
 then go to the config section for integrations:
     cd /var/ossec/integrations
+
 We can use the following command to see a list of files in there
     ls -l
+
 We need to create two file here cutom-teams, custom-teams.py- run this command
     nano custom-teams and paste following script and save this.
 this is github link custom-teams script is there: - wazuh-alerts-push-to-teams/README.md at main · satyendraydv21/wazuh-alerts-push-to-teams
+
 Now we need to create custom-teams.py
     nano custom-teams.py 
+
 this is github link custom-teams.py script is there: - wazuh-alerts-push-to-teams/custom-teams.py at main · satyendraydv21/wazuh-alerts-push-to-teams
 We can then verify they are downloaded. We can also see they are white because they don't have the proper permissions yet.
     ls -l
 Then we need to ensure they have the proper permissions to execute:
 sudo chmod 750 /var/ossec/integrations/custom-*
 sudo chown root:wazuh /var/ossec/integrations/custom-*
+
 ---
 Now we can verify they are correct one more time (and that they have turned green instead of white becuase they have the right perms now.)
     ls -l
