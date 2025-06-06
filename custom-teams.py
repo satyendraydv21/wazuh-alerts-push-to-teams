@@ -1,4 +1,5 @@
-----------custom-teams.py---------
+# note if you are using custom-teams.py then you should ingnore custom-teams-optionalscript.py
+#----------custom-teams.py---------
 #sudo chmod 750 /var/ossec/integrations/custom-*
 #sudo chown root:wazuh /var/ossec/integrations/custom-*
 #Add this integration at ossec.config
