@@ -10,68 +10,61 @@ ossec.conf configuration structure
 <alert_format>json</alert_format>
 </integration>
 """
-
+#Start copy from here 
  
 #!/usr/bin/env python3
- 
+
 import sys
-import json
 import requests
-import os
- 
-# Get arguments
+import json
+
+# Read configuration
 alert_file = sys.argv[1]
- 
-# Read webhook URL from environment variable set by Wazuh
-webhook_url = os.environ.get("WAZUH_INTEGRATION_WEBHOOK_URL")
-if not webhook_url:
-    print("Error: Missing webhook URL in environment variable")
-    sys.exit(1)
- 
-# Read the alert file
-with open(alert_file, 'r') as f:
-    try:
-        alert_json = json.load(f)
-    except Exception as e:
-        print(f"Error: Could not decode JSON alert - {e}")
-        sys.exit(1)
- 
-# Extract alert data
-rule = alert_json.get("rule", {})
-agent = alert_json.get("agent", {}).get("name", "N/A")
-description = rule.get("description", "No description")
-rule_id = rule.get("id", "N/A")
-level = rule.get("level", 0)
- 
-# Set color based on level
-if level < 5:
-    themeColor = "00FF00"  # Green
-elif 5 <= level <= 7:
-    themeColor = "FFFF00"  # Yellow
+user = sys.argv[2].split(":")[0]
+hook_url = sys.argv[3]
+
+# Read alert file
+with open(alert_file) as f:
+    alert_json = json.loads(f.read())
+
+# Extract alert level
+alert_level = alert_json["rule"]["level"]
+
+# Choose color based on severity (Teams uses hex in cards)
+if alert_level < 5:
+    color = "00FF00"  # green
+elif 5 <= alert_level <= 7:
+    color = "FFFF00"  # yellow
 else:
-    themeColor = "FF0000"  # Red
- 
-# Prepare Teams payload
-teams_payload = {
+    color = "FF0000"  # red
+
+# Agent name
+if "agentless" in alert_json:
+    agent_name = "agentless"
+else:
+    agent_name = alert_json["agent"]["name"]
+
+# Prepare the Teams message card payload
+payload = {
     "@type": "MessageCard",
     "@context": "http://schema.org/extensions",
-    "summary": "Wazuh Alert",
-    "themeColor": themeColor,
-    "title": f"Wazuh Alert - Rule {rule_id}",
-    "sections": [
-        {
-            "activityTitle": f"**Agent**: {agent}",
-            "text": f"**Description**: {description}\n\n**Level**: {level}"
-        }
-    ]
+    "summary": f"Wazuh Alert - Rule {alert_json['rule']['id']}",
+    "themeColor": color,
+    "title": f"Wazuh Alert - Rule {alert_json['rule']['id']}",
+    "sections": [{
+        "activityTitle": "🚨 **Alert Triggered**",
+        "facts": [
+            {"name": "Agent", "value": agent_name},
+            {"name": "Description", "value": alert_json["rule"]["description"]},
+            {"name": "Level", "value": str(alert_level)},
+        ],
+        "markdown": True
+    }]
 }
- 
-# Send to Teams
-headers = {"Content-Type": "application/json"}
-response = requests.post(webhook_url, headers=headers, json=teams_payload)
- 
+
+# Send the POST request
+response = requests.post(hook_url, data=json.dumps(payload), headers={"Content-Type": "application/json"})
+
+# Optional: print response for debugging
 if response.status_code != 200:
-    print(f"Error sending to Teams: {response.status_code} - {response.text}")
-    sys.exit(1)
- 
-sys.exit(0)
+    print(f"[!] Error sending to Teams: {response.status_code} - {response.text}")
