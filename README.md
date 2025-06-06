@@ -39,7 +39,7 @@ Then paste your teams Webhook in the <hook_url> </hook_url> tags.
 13.	Click Save.
 14.	Restart Manager.
 
---
+
 15. After you login perform the following commands:
     sudo su
 then go to the config section for integrations:
