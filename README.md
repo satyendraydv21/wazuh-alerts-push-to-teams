@@ -41,7 +41,7 @@ Then paste your teams Webhook in the <hook_url> </hook_url> tags.
 
 
 15. After you login perform the following commands:
-    sudo su
+    --sudo su--
 
 then go to the config section for integrations:
     cd /var/ossec/integrations
