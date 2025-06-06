@@ -53,7 +53,7 @@ We need to create two file here cutom-teams, custom-teams.py- run this command
     nano custom-teams and paste following script and save this.
 
 this is github link custom-teams script is there: - wazuh-alerts-push-to-teams/README.md at main · satyendraydv21/wazuh-alerts-push-to-teams
-------
+
 Now we need to create custom-teams.py
    Run this command: nano custom-teams.py 
 
