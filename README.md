@@ -10,20 +10,20 @@ Create a Ms teams Webhook
 2.	Go to the server you want to use to monitor Wazuh.
 3.	Create a text channel.
 And then - 
-1.	click on - three dot then click on - Manage channel
-2.	Go to connector and click on edit.
-3.	Select the incoming Webhook or search it.
+4.	click on - three dot then click on - Manage channel
+5.	Go to connector and click on edit.
+6.	Select the incoming Webhook or search it.
 ---
-1.	Click New Webhook.
-2.	Name your webhook but to something like WazuhAlerts.
-3.	Select the text channel for your Wazuh alerts we created a second ago.
-4.	Copy the Webhook to a notepad, we will paste it in a configuration file in a minute.
-----
-
+7.	Click New Webhook.
+8.	Name your webhook but to something like WazuhAlerts.
+9.	Select the text channel for your Wazuh alerts we created a second ago.
+10.	Copy the Webhook to a notepad, we will paste it in a configuration file in a minute.
+---
 Configure Wazuh's Dashboard Integration settings
 Login to your Wazuh dashboard and go to the following location:
 (Server Manangement / Settings)
 On the top right click (edit configuration)
+
 ----
 
 We are going to paste the following code BELOW the tags <global> </global>
