@@ -1,4 +1,4 @@
-# note if you are using custom-teams.py then you should ingnore custom-teams-optionalscript.py
+# note if you are using custom-teams.py then you should ingnore custom-teams-optionalscript.py ***Anyway this scipt is tested so it's working correctly*
 #----------custom-teams.py---------
 #sudo chmod 750 /var/ossec/integrations/custom-*
 #sudo chown root:wazuh /var/ossec/integrations/custom-*
